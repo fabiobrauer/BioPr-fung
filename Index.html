@@ -66,9 +66,16 @@
             background-color: #018786;
         }
 
-        #result {
+        #result, #correctAnswers  {
             margin-top: 60px;
             font-size: 18px;
+            
+        }
+        #correctAnswers  {
+            cursor: pointer;
+            position: sticky;
+            top: 30%;
+            z-index: 11;  
         }
 </style>
 <body style="background-color: rgb(43, 43, 43); color: rgb(255, 255, 255);">
@@ -205,40 +212,49 @@
         
 </form>
 
-  <div><button type="button" onclick="checkAnswers()" style="font-size: x-large;">Auswerten</button> <p class="results" id="result"></p></div> 
+  <div>
+    <button type="button" onclick="checkAnswers()" style="font-size: x-large;">Auswerten</button> 
+    <p class="results" id="result"></p>
+    <div id="correctAnswers"></div>
+</div> 
 </main>
-    <script>
-        function checkAnswers() {
-            const correctAnswers = {
-                    q1: 'c',
-                    q2: 'f',
-                    q3: 'e',
-                    q4: 'f',
-                    q5: 'c',
-                    q6: 'd',
-                    q7: 'c',
-                    q8: 'a',
-                    q9: 'b',
-                    q10: 'f',
-                    q11: 'a',
-                    q12: 'b',
-                    q16: 'b'
-                // Add the rest of the correct answers here
-            };
+<script>
+    function checkAnswers() {
+        const correctAnswers = {
+            q1: 'c',
+            q2: 'f',
+            q3: 'e',
+            q4: 'f',
+            q5: 'c',
+            q6: 'd',
+            q7: 'c',
+            q8: 'a',
+            q9: 'b',
+            q10: 'f',
+            q11: 'a',
+            q12: 'b',
+            q16: 'b'
+        };
 
-            let totalQuestions = Object.keys(correctAnswers).length;
-            let correctCount = 0;
+        let totalQuestions = Object.keys(correctAnswers).length;
+        let correctCount = 0;
 
-            for (let key in correctAnswers) {
-                const selected = document.querySelector(`input[name="${key}"]:checked`);
-                if (selected && selected.value === correctAnswers[key]) {
-                    correctCount++;
-                }
+        for (let key in correctAnswers) {
+            const selected = document.querySelector(`input[name="${key}"]:checked`);
+            if (selected && selected.value === correctAnswers[key]) {
+                correctCount++;
             }
-
-            let percentage = (correctCount / totalQuestions) * 100;
-            document.getElementById('result').textContent = `You got ${correctCount} out of ${totalQuestions} correct. Your score is ${percentage.toFixed(2)}%.`;
         }
-    </script>
+
+        let percentage = (correctCount / totalQuestions) * 100;
+        document.getElementById('result').textContent = `You got ${correctCount} out of ${totalQuestions} correct. Your score is ${percentage.toFixed(2)}%.`;
+
+        let correctAnswersHtml = '<h2>Correct Answers:</h2>';
+        for (let key in correctAnswers) {
+            correctAnswersHtml += `<p>${key}: ${correctAnswers[key]}</p>`;
+        }
+        document.getElementById('correctAnswers').innerHTML = correctAnswersHtml;
+    }
+</script>
 </body>
 </html>
